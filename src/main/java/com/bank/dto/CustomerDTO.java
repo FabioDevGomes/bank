@@ -2,7 +2,7 @@ package com.bank.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class CustomerDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -12,7 +12,7 @@ public class CustomerDTO implements Serializable{
 	private Boolean exclusivePlan;
 	private BigDecimal balance;
 	private String accountNumber;
-	private Date birthDate;
+	private LocalDate birthDate;
 
 	public Long getId() {
 		return id;
@@ -54,11 +54,11 @@ public class CustomerDTO implements Serializable{
 		this.accountNumber = accountNumber;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 }

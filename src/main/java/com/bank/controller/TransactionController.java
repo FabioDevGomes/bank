@@ -1,15 +1,14 @@
 package com.bank.controller;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
-
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +38,7 @@ public class TransactionController {
 	}
 	
 	@GetMapping("/{operationDate}")
-	public ResponseEntity<?> consultTransactionHistory(@PathParam("operationDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date operationDate) {
+	public ResponseEntity<?> consultTransactionHistory(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate operationDate) {
 		List<TransactionDTO> response = transactionService.consultTransactionHistory(operationDate);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}

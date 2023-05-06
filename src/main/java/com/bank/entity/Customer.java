@@ -1,13 +1,13 @@
 package com.bank.entity;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Customer {
@@ -20,8 +20,8 @@ public class Customer {
 	private BigDecimal balance;
 	private String accountNumber;
 	
-	@Temporal(TemporalType.DATE)
-	private Date birthDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate birthDate;
 
 	public Long getId() {
 		return id;
@@ -63,11 +63,11 @@ public class Customer {
 		this.accountNumber = accountNumber;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

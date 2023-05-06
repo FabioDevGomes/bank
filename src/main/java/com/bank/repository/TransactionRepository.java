@@ -1,6 +1,6 @@
 package com.bank.repository;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +11,6 @@ import com.bank.entity.Transaction;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 	
-	List<Transaction> findAllByOperationDate(Date operationDate);
+	List<Transaction> findAllByOperationDate(LocalDate operationDate);
 
 }

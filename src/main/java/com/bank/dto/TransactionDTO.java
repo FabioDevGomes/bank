@@ -1,18 +1,20 @@
 package com.bank.dto;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+
+import com.bank.enumetaion.OperationType;
 
 
 public class TransactionDTO {
 	
 	private Long id;
-	
-	private Date operationDate;
-	
+	private LocalDate operationDate;
 	private BigDecimal operationValue;
-	
+	private OperationType operationType;
+	private BigDecimal currentBalance;	
 	private CustomerDTO customer;
+	
 	
 	public Long getId() {
 		return id;
@@ -22,11 +24,11 @@ public class TransactionDTO {
 		this.id = id;
 	}
 
-	public Date getOperationDate() {
+	public LocalDate getOperationDate() {
 		return operationDate;
 	}
 
-	public void setOperationDate(Date operationDate) {
+	public void setOperationDate(LocalDate operationDate) {
 		this.operationDate = operationDate;
 	}
 
@@ -44,6 +46,22 @@ public class TransactionDTO {
 
 	public void setCustomer(CustomerDTO customer) {
 		this.customer = customer;
+	}
+
+	public OperationType getOperationType() {
+		return operationType;
+	}
+
+	public void setOperationType(OperationType operationType) {
+		this.operationType = operationType;
+	}
+
+	public BigDecimal getCurrentBalance() {
+		return currentBalance;
+	}
+
+	public void setCurrentBalance(BigDecimal currentBalance) {
+		this.currentBalance = currentBalance;
 	}
 
 }

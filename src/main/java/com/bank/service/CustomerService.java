@@ -1,5 +1,7 @@
 package com.bank.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,11 @@ public class CustomerService {
 	}
 
 	public CustomerDTO consult(Long id) {
-		return DozerMapper.parseObject(repository.findById(id), CustomerDTO.class);
+		return DozerMapper.parseObject(repository.findById(id).get(), CustomerDTO.class);
+	}
+
+	public List<CustomerDTO> listAll() {
+		return DozerMapper.parseListObjects(repository.findAll(), CustomerDTO.class);
 	}
 
 }

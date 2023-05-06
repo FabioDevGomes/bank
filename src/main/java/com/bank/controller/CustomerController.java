@@ -1,10 +1,11 @@
 package com.bank.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,16 +23,16 @@ public class CustomerController {
 
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody CustomerDTO customer) {
-		customerService.createOrSave(customer);
+		CustomerDTO response = customerService.createOrSave(customer);
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> consult(@PathVariable("id") Long id) {
-		CustomerDTO customer = customerService.consult(id);
+	@GetMapping
+	public ResponseEntity<?> listAll() {
+		List<CustomerDTO> customers = customerService.listAll();
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+		return ResponseEntity.ok().body(customers);
 	}
 
 }
