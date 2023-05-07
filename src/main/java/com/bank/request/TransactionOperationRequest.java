@@ -2,9 +2,14 @@ package com.bank.request;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotNull;
+
 public class TransactionOperationRequest {
 
+	@NotNull
 	private BigDecimal value;
+
+	@NotNull
 	private Long customerId;
 
 	public BigDecimal getValue() {

@@ -4,14 +4,26 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotNull;
+
 public class CustomerDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+	
+	@NotNull
 	private String name;
+	
+	@NotNull
 	private Boolean exclusivePlan;
+	
+	@NotNull
 	private BigDecimal balance;
+
+	@NotNull
 	private String accountNumber;
+
+	@NotNull
 	private LocalDate birthDate;
 
 	public Long getId() {

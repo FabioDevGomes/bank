@@ -1,5 +1,6 @@
 package com.bank.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,25 +28,35 @@ public class TransactionService {
 	@Autowired
 	TransactionRepository transactionRepository;
 
-	public void withdrawValue(TransactionOperationRequest withDrauRequest) {
+	public TransactionOperationRequest withdrawValue(TransactionOperationRequest withDrauRequest) {
 		CustomerDTO customerDTO = withdrawCustomerAccount(withDrauRequest);
 		TransactionDTO transactionDTO = createWithdrawTransaction(withDrauRequest, customerDTO);
 	
 		transactionRepository.save(DozerMapper.parseObject(transactionDTO, Transaction.class));
+		
+		return withDrauRequest;
 	}
 
 	private CustomerDTO withdrawCustomerAccount(TransactionOperationRequest withDrauRequest) {
-		CustomerDTO customerDTO = customerService.consult(withDrauRequest.getCustomerId());
-		customerDTO.setBalance(customerDTO.getBalance().subtract(withDrauRequest.getValue()));
-		customerDTO = customerService.createOrSave(customerDTO);
-		return customerDTO;
+		CustomerDTO customer = customerService.consult(withDrauRequest.getCustomerId());
+		
+		addFeeToValue(withDrauRequest, customer);
+		
+		customer.setBalance(customer.getBalance().subtract(withDrauRequest.getValue()));
+		customer = customerService.createOrSave(customer);
+		return customer;
+	}
+
+	private void addFeeToValue(TransactionOperationRequest withDrauRequest, CustomerDTO customer) {
+		BigDecimal fee = AdminstrationFee.calculateAdministrateFee(customer, withDrauRequest);
+		withDrauRequest.setValue(withDrauRequest.getValue().add(fee));
 	}
 
 	public void depositValue(TransactionOperationRequest depositRequest) {
-		CustomerDTO customerDTO = depositInCustomerAccount(depositRequest);
-		TransactionDTO transactionDTO = createDepositTransaction(depositRequest, customerDTO);
+		CustomerDTO customer = depositInCustomerAccount(depositRequest);
+		TransactionDTO transaction = createDepositTransaction(depositRequest, customer);
 	
-		transactionRepository.save(DozerMapper.parseObject(transactionDTO, Transaction.class));
+		transactionRepository.save(DozerMapper.parseObject(transaction, Transaction.class));
 	}
 
 	private CustomerDTO depositInCustomerAccount(TransactionOperationRequest depositRequest) {
@@ -70,7 +81,7 @@ public class TransactionService {
 	}
 
 	private TransactionDTO createTransaction(TransactionOperationRequest withDrauRequest, CustomerDTO customerDTO) {
-		TransactionDTO transaction = new TransactionDTO();
+		var transaction = new TransactionDTO();
 		transaction.setCustomer(customerDTO);
 		transaction.setOperationDate(LocalDate.now());
 		transaction.setOperationValue(withDrauRequest.getValue());
