@@ -2,11 +2,7 @@ package com.bank.unit;
 
 import static org.mockito.Mockito.when;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Optional;
-
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -22,6 +18,7 @@ import org.mockito.quality.Strictness;
 
 import com.bank.dto.CustomerDTO;
 import com.bank.entity.Customer;
+import com.bank.mock.MockCustomer;
 import com.bank.repository.CustomerRepository;
 import com.bank.service.CustomerService;
 
@@ -31,36 +28,34 @@ import com.bank.service.CustomerService;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class CustomerServiceTest {
 	
+	private MockCustomer mockCustomer;
+	
 	@Mock
-	private CustomerRepository repository;
+	public CustomerRepository repository;
 	
 	@InjectMocks
-	private CustomerService service;
+	public CustomerService service;
 	
+
 	@BeforeEach
 	void setUp() throws Exception {
+		mockCustomer = new MockCustomer();
 		MockitoAnnotations.openMocks(this);
 	}
 	
 	@Test
-	void createOrSave() {
-		Customer customer = new Customer();
-		customer.setName("Fabio");
-		
-		CustomerDTO customerDTO = new CustomerDTO();
-		customerDTO.setName("Fabio");
-		customerDTO.setAccountNumber("123");
-		customerDTO.setExclusivePlan(false);
-		customerDTO.setBirthDate(LocalDate.now());
-		customerDTO.setBalance(new BigDecimal(100));
+	void createOrSaveTest() {
+		Customer customer = mockCustomer.mockEntity();
 		
 		when(repository.save(Mockito.any())).thenReturn(customer);
 		
-		CustomerDTO result = service.createOrSave(customerDTO);
+		CustomerDTO result = service.createOrSave(new CustomerDTO());
 		
-		Assertions.assertEquals("Fabio", result.getName());
-
-		
+		assertEquals("Fabio", result.getName());
+		assertEquals(customer.getAccountNumber(), result.getAccountNumber());
+		assertEquals(customer.getExclusivePlan(), result.getExclusivePlan());
+		assertEquals(customer.getBirthDate(), result.getBirthDate());
+		assertEquals(customer.getBalance(), result.getBalance());
 	}
 
 }

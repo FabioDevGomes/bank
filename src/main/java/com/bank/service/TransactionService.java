@@ -37,19 +37,19 @@ public class TransactionService {
 		return withDrauRequest;
 	}
 
-	private CustomerDTO withdrawCustomerAccount(TransactionOperationRequest withDrauRequest) {
-		CustomerDTO customer = customerService.consult(withDrauRequest.getCustomerId());
+	private CustomerDTO withdrawCustomerAccount(TransactionOperationRequest withDrawRequest) {
+		CustomerDTO customer = customerService.consult(withDrawRequest.getCustomerId());
 		
-		addFeeToValue(withDrauRequest, customer);
+		addRateToValue(withDrawRequest, customer);
 		
-		customer.setBalance(customer.getBalance().subtract(withDrauRequest.getValue()));
+		customer.setBalance(customer.getBalance().subtract(withDrawRequest.getValue()));
 		customer = customerService.createOrSave(customer);
 		return customer;
 	}
 
-	private void addFeeToValue(TransactionOperationRequest withDrauRequest, CustomerDTO customer) {
-		BigDecimal fee = AdminstrationFee.calculateAdministrateFee(customer, withDrauRequest);
-		withDrauRequest.setValue(withDrauRequest.getValue().add(fee));
+	private void addRateToValue(TransactionOperationRequest withDrawRequest, CustomerDTO customer) {
+		BigDecimal rate = AdminstrationRate.calculateAdministrateRate(customer, withDrawRequest);
+		withDrawRequest.setValue(withDrawRequest.getValue().add(rate));
 	}
 
 	public void depositValue(TransactionOperationRequest depositRequest) {
