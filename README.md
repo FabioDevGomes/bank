@@ -4,6 +4,10 @@ micro service with some bank operations
 URL for Swagger
 http://localhost:8080/swagger-ui/index.html
 
+Postman collection in src/main/resource folder:
+
+![image](https://user-images.githubusercontent.com/6883531/236701035-1f1ec1ba-8e61-4551-9197-92a48bba9a9e.png)
+
 
 Content negociation via xml and json:
 
