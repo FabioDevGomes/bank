@@ -3,6 +3,7 @@ package com.bank.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,6 +19,8 @@ public class Customer {
 	private String name;
 	private Boolean exclusivePlan;
 	private BigDecimal balance;
+	
+	@Column(unique = true)
 	private String accountNumber;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -2,9 +2,10 @@ package com.bank.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bank.dto.CustomerDTO;
@@ -89,9 +90,10 @@ public class TransactionService {
 		return transaction;
 	}
 
-	public List<TransactionDTO> consultTransactionHistory(LocalDate operationDate) {
-		List<TransactionDTO> transactions = DozerMapper.parseListObjects(
-				transactionRepository.findAllByOperationDate(operationDate), TransactionDTO.class);
+	public Page<TransactionDTO> consultTransactionHistory(LocalDate operationDate, Pageable paging) {
+		
+		Page<TransactionDTO> transactions = DozerMapper.parsePage(
+				transactionRepository.findAllByOperationDate(operationDate, paging), TransactionDTO.class, paging);
 		 
 		 return transactions;
 	}

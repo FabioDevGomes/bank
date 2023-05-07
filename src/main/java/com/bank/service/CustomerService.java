@@ -1,8 +1,8 @@
 package com.bank.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bank.dto.CustomerDTO;
@@ -25,8 +25,9 @@ public class CustomerService {
 		return DozerMapper.parseObject(repository.findById(id).get(), CustomerDTO.class);
 	}
 
-	public List<CustomerDTO> listAll() {
-		return DozerMapper.parseListObjects(repository.findAll(), CustomerDTO.class);
+	public Page<CustomerDTO> listAll(Pageable paging) {
+		
+		return DozerMapper.parsePage(repository.findAll(paging), CustomerDTO.class, paging);
 	}
 
 }
